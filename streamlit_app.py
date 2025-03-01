@@ -1,0 +1,33 @@
+import streamlit as st
+import numpy as np
+import pandas as pd
+import time
+d_s=pd.DataFrame(np.random.randint(1,120,size=(4,4)))
+st.title("Welcome to my website......")
+st.header("This is my first app.......")
+st.write(d_s)
+st.write("hi",color='red')
+a=st.number_input("enter the number")
+st.write(a+1000)
+st.caption("who are you")
+st.latex(r'''a+bx^2''')
+st.button("click here")
+st.radio("pick an answer",["cat","dog","rabbit"])
+st.selectbox("select ",["ml","ai","iot"])
+st.multiselect("select",["ml","ai","cyber","iot"])
+st.select_slider("rate the product",["poor","bad","good","average","super","outstanding"])
+st.time_input("select the time")
+st.text_area("enter your opinoin")
+a=st.file_uploader("upload your file")
+st.write(a)
+st.color_picker("select your color")
+st.progress(90)
+with st.spinner("wait"):
+    time.sleep(4)
+st.balloons()   
+st.sidebar.title("welcome")
+st.sidebar.number_input("enter")
+st.sidebar.radio("select",["1","2","3"])
+st.bar_chart(d_s)
+st.line_chart(d_s)
+st.area_chart(d_s)
