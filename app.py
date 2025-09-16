@@ -1,36 +1,27 @@
 import streamlit as st
-from utils import read_file, save_audit
 from processor import preprocess, analyze_with_ai
 
-st.set_page_config(page_title="GenAI Legal Assistant", layout="wide")
+st.set_page_config(page_title="Legal Text Analyzer", layout="wide")
+st.title("Legal Text Analysis Tool (Local with Transformers)")
 
-st.title("📑 GenAI-Powered Legal Assistant for SMEs")
+st.markdown("""
+This tool analyzes legal text locally using Hugging Face Transformers.  
+- **Preprocessing**: Lowercase and clean text.  
+- **Entity Recognition**: Detect names, organizations, dates, etc.
+""")
 
-# Upload Section
-uploaded_file = st.file_uploader("Upload a contract (PDF, DOCX, TXT)", type=["pdf", "docx", "txt"])
-manual_text = st.text_area("Or paste contract text here:")
+input_text = st.text_area("Enter or paste legal text here:", height=200)
 
-if uploaded_file or manual_text.strip():
-    if uploaded_file:
-        save_audit("File Uploaded", {"filename": uploaded_file.name})
-        with st.spinner("Reading contract..."):
-            text = read_file(uploaded_file)
+if st.button("Analyze"):
+    if not input_text.strip():
+        st.warning("Please enter some text before analyzing.")
     else:
-        text = manual_text
-        save_audit("Manual Text Input", {"length": len(manual_text)})
+        # Preprocessing
+        cleaned_text = preprocess(input_text)
+        st.subheader("Preprocessed Text")
+        st.write(cleaned_text)
 
-    st.subheader("Contract Preview")
-    st.text_area("Extracted Text", text[:2000] + "...", height=200)
-
-    if st.button("Analyze Contract"):
-        save_audit("Contract Analysis Started", {"source": "file" if uploaded_file else "manual"})
-        
-        with st.spinner("Analyzing with Gemini... (may take up to 2 minutes)"):
-            summary = analyze_with_ai(text)
-
-        st.subheader("📊 Analysis Report")
-        st.write(summary)
-
-        save_audit("Contract Analysis Completed", {"source": "file" if uploaded_file else "manual"})
-
-         
+        # Entity Recognition
+        entities = analyze_with_ai(input_text)
+        st.subheader("Detected Entities")
+        st.write(entities)
