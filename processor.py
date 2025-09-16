@@ -7,7 +7,7 @@ nltk.download("punkt")
 nlp = spacy.load("en_core_web_sm")
 
 # 🔑 Configure Gemini (replace with your API key from Google AI Studio)
-genai.configure(api_key="YOUR_GEMINI_API_KEY")
+genai.configure(api_key="AIzaSyD1s0-pUfwyUAvWgacbJIaJAdESMYyeiAg")
 
 def preprocess(text):
     """Split contract into sentences using spaCy."""
